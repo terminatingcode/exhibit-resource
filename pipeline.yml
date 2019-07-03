@@ -1,0 +1,24 @@
+resource_types:
+- name: exhibit-resource
+  type: docker-image
+  source:
+    repository: terminatingcode/exhibit-resource
+
+resources:
+- name: exhibit-resource
+  type: exhibit-resource
+  check_every: 5m
+  source:
+    # Every resource created using ofcourse will have `log_level`
+    # as an available option in the source configuration. If not
+    # given, it defaults to `info`.
+    log_level: debug
+
+jobs:
+- name: do-it
+  plan:
+  - get: exhibit-resource
+    trigger: true
+  - put: exhibit-resource
+    params:
+      version_path: exhibit-resource/version
